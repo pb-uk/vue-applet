@@ -14,20 +14,24 @@
     <div id="app"></div>
 
     <script id="tpl-app" type="text/template">
-      <button @click="++counter">{{ counter }}</button>
+      <applet-button @click="++counter">{{ counter }}</applet-button>
     </script>
 
     <script>
-      const { createApp, ref } = VueApplet.Vue;
-      createApp({
-        template: '#tpl-app',
-        setup() {
-          const counter = ref(0);
-          return {
-            counter,
-          };
+      var vueApplets = vueApplets || [];
+      vueApplets.push({
+        app: {
+          template: '#tpl-app',
+          setup() {
+            const { ref } = Vue;
+            const counter = ref(100);
+            return {
+              counter,
+            };
+          },
         },
-      }).mount('#app');
+        mount: '#app',
+      });
     </script>
   </body>
 </html>

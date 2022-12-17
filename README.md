@@ -87,6 +87,19 @@ module.exports = {
   },
 }
 ```
+### Code coverage
+```console
+$ npm i -D c8
+$ # @istanbuljs/nyc-config-typescript
+```js
+// package.json
+{
+  "scripts": {
+    "coverage": "rimraf coverage && c8 -r html -r text npm run test:unit",
+  },
+}
+```
+
 
 ### Linting and prettifying
 
@@ -150,10 +163,6 @@ $
 $ # If there are any DOM tests...
 $ npm i -D jsdom, @types/jsdom
 $ #
-$ # Code coverage.
-$ npm i -D c8
-$ # @istanbuljs/nyc-config-typescript
 
 ```
 
-```

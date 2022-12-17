@@ -7,7 +7,9 @@ import { readFileSync } from 'node:fs';
 import camelCase from 'camelcase';
 import json from '@rollup/plugin-json';
 // Required to bundle external modules.
-import { nodeResolve } from '@rollup/plugin-node-resolve';
+// import { nodeResolve } from '@rollup/plugin-node-resolve';
+
+import vue from 'rollup-plugin-vue'
 
 const pkg = JSON.parse(readFileSync('package.json'));
 
@@ -18,6 +20,8 @@ const year = datetime.substring(0, 4);
 // Remove npm namespace from the package name.
 const pkgName = pkg.name.replace(/@.*\//, '');
 const name = camelCase(pkgName, { pascalCase: true });
+
+const vueGlobal = readFileSync('node_modules/vue/dist/vue.global.prod.js', 'utf8');
 
 // Main banner.
 const banner = `/*! ${name} v${pkg.version} ${datetime}
@@ -37,17 +41,18 @@ export default [
       name,
       file: `./dist/${pkgName}.min.js`,
       format: 'iife',
-      banner,
+      banner: `${banner}${vueGlobal}`,
       sourcemap: true,
+      globals: { vue: 'Vue' }
     },
     plugins: [
-      nodeResolve(),
       json(),
       typescript({
         compilerOptions: {
           target,
         },
       }),
+      vue(),
       terser({ output: { comments: /^!/ } }),
     ],
   },
