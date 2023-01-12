@@ -39,7 +39,8 @@ $ npm i -D typescript
 }
 ```
 
-###  Build
+### Build
+
 Cannot use `@rollup/plugin-terser` because of
 https://github.com/rollup/plugins/issues/1366
 so we must use the deprecated `rollup-plugin-terser` which in turn forces rollup
@@ -87,8 +88,10 @@ module.exports = {
   },
 }
 ```
+
 ### Code coverage
-```console
+
+````console
 $ npm i -D c8
 $ # @istanbuljs/nyc-config-typescript
 ```js
@@ -98,8 +101,7 @@ $ # @istanbuljs/nyc-config-typescript
     "coverage": "rimraf coverage && c8 -r html -r text npm run test:unit",
   },
 }
-```
-
+````
 
 ### Linting and prettifying
 
@@ -166,3 +168,4 @@ $ #
 
 ```
 
+```

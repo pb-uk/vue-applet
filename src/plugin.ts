@@ -1,13 +1,11 @@
-
 import componentSource from './components/components';
 
-import { version } from '../package.json';
+import type { App } from 'vue';
 
-const install = (app) => {
+export { install };
+
+const install = (app: App) => {
   Object.entries(componentSource).forEach(([name, component]) => {
-    console.log(componentSource, name);
-    app.component(name, component)
+    app.component(name, component);
   });
 };
-
-export default { version, install };

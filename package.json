@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/pb-uk/vue-applet#readme",
   "devDependencies": {
+    "@rollup/plugin-alias": "^4.0.2",
     "@rollup/plugin-json": "^5.0.2",
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@rollup/plugin-typescript": "^10.0.1",

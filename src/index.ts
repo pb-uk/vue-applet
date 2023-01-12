@@ -1,13 +1,23 @@
+import { install } from './plugin';
+import { createApp } from 'vue';
+import * as Vue from 'vue';
+import type { Component } from 'vue';
+import { version } from '../package.json';
 
-import plugin from './plugin';
+type AppletAppParams = { Vue: unknown; version: string };
+type AppletDefinition = {
+  app: (p: AppletAppParams) => Component;
+  mount: string | HTMLElement;
+};
+
+declare global {
+  const vueApplets: AppletDefinition[];
+}
 
 const onDOMContentLoaded = () => {
-  if (!window.vueApplets) return;
-  const { createApp} = Vue;
-  window.vueApplets.forEach(({ app, mount }) => {
-    createApp(app)
-      .use(plugin)
-      .mount(mount);
+  if (!vueApplets) return;
+  vueApplets.forEach(({ app, mount }) => {
+    createApp(app({ Vue, version })).use(install).mount(mount);
   });
 };
 
@@ -18,5 +28,3 @@ if (document.readyState === 'loading') {
   // `DOMContentLoaded` has already fired.
   onDOMContentLoaded();
 }
-
-export default plugin;

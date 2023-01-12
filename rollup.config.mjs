@@ -7,9 +7,10 @@ import { readFileSync } from 'node:fs';
 import camelCase from 'camelcase';
 import json from '@rollup/plugin-json';
 // Required to bundle external modules.
-// import { nodeResolve } from '@rollup/plugin-node-resolve';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import alias from '@rollup/plugin-alias';
 
-import vue from 'rollup-plugin-vue'
+import vue from 'rollup-plugin-vue';
 
 const pkg = JSON.parse(readFileSync('package.json'));
 
@@ -20,8 +21,6 @@ const year = datetime.substring(0, 4);
 // Remove npm namespace from the package name.
 const pkgName = pkg.name.replace(/@.*\//, '');
 const name = camelCase(pkgName, { pascalCase: true });
-
-const vueGlobal = readFileSync('node_modules/vue/dist/vue.global.prod.js', 'utf8');
 
 // Main banner.
 const banner = `/*! ${name} v${pkg.version} ${datetime}
@@ -38,42 +37,25 @@ export default [
   {
     input: './src/index.ts',
     output: {
-      name,
+      // name,
       file: `./dist/${pkgName}.min.js`,
       format: 'iife',
-      banner: `${banner}${vueGlobal}`,
-      sourcemap: true,
-      globals: { vue: 'Vue' }
-    },
-    plugins: [
-      json(),
-      typescript({
-        compilerOptions: {
-          target,
-        },
-      }),
-      vue(),
-      terser({ output: { comments: /^!/ } }),
-    ],
-  },
-  /* No ES Module bundle.
-  {
-    input: './src/index.ts',
-    output: {
-      file: './dist/index.js',
-      format: 'esm',
       banner,
       sourcemap: true,
     },
     plugins: [
-      nodeResolve(),
       json(),
+      alias({
+        entries: [{ find: 'vue', replacement: 'vue/dist/vue.esm-browser.prod.js' }],
+      }),
+      vue(),
+      nodeResolve(),
       typescript({
         compilerOptions: {
           target,
         },
       }),
+      terser({ output: { comments: /^!/ } }),
     ],
   },
-  */
 ];
