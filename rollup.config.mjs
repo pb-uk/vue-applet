@@ -46,7 +46,9 @@ export default [
     plugins: [
       json(),
       alias({
-        entries: [{ find: 'vue', replacement: 'vue/dist/vue.esm-browser.prod.js' }],
+        entries: [
+          { find: 'vue', replacement: 'vue/dist/vue.esm-browser.prod.js' },
+        ],
       }),
       vue(),
       nodeResolve(),

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Vue applet plugin information</title>
+    <script defer src="../dist/vue-applet.min.js"></script>
+  </head>
+  <body>
+    <h1>Vue applet plugin information</h1>
+
+    <div id="app"></div>
+
+    <script id="tpl-app" type="text/template">
+      <p>Version {{ VueApplet.version }}</p>
+      <h2>Components</h2>
+      <example-component
+        v-for="[name, component] in Object.entries(VueApplet.components)"
+        :name="name"
+        :component="component"
+      ></example-component>
+    </script>
+
+    <script id="tpl-example-component" type="text/template">
+      <h3>{{ name }}</h3>
+      <p v-if="component.props">Props: {{ component.props.sort().join(', ') }}</p>
+      <p v-if="component.emits">Emits: {{ component.emits.sort().join(', ') }}</p>
+    </script>
+
+    <script>
+      var vueApplets = vueApplets || [];
+
+      const ExampleComponent = {
+        template: '#tpl-example-component',
+        props: ['component', 'name'],
+      };
+
+      vueApplets.push({
+        app({ Vue, VueApplet }) {
+          const { ref } = Vue;
+
+          return {
+            template: '#tpl-app',
+            components: { ExampleComponent },
+            setup() {
+              return { VueApplet };
+            },
+          };
+        },
+        mount: '#app',
+      });
+    </script>
+  </body>
+</html>

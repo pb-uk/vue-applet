@@ -1,11 +1,17 @@
-import componentSource from './components/components';
+import components from './components/components';
+import { version } from '../package.json';
 
 import type { App } from 'vue';
 
-export { install };
+export type VueAppletType = {
+  install: (app: App) => void;
+  version: string;
+};
+
+export { install, version, components };
 
 const install = (app: App) => {
-  Object.entries(componentSource).forEach(([name, component]) => {
+  Object.entries(components).forEach(([name, component]) => {
     app.component(name, component);
   });
 };

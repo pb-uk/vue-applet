@@ -14,8 +14,6 @@
 import { ref } from 'vue';
 
 export default {
-  name: 'AppletInput',
-
   props: ['modelValue', 'placeholder', 'label'],
 
   emits: ['update:modelValue'],

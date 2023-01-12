@@ -12,11 +12,10 @@
   </head>
   <body>
     <h1>Vue applet examples</h1>
-
+    <p><a href="vue-applet-plugin.html">VueApplet plugin</a></p>
     <div id="app"></div>
 
     <script id="tpl-app" type="text/template">
-      <p>VueApplet version {{ version }}</p>
       <p>
         <applet-input v-model="input1" label="Label text" placeholder="Input anything"></applet-input>
       </p>
@@ -29,15 +28,17 @@
     <script>
       var vueApplets = vueApplets || [];
       vueApplets.push({
-        app({ Vue, version }) {
+        app({ Vue, VueApplet }) {
           return {
             template: '#tpl-app',
             setup() {
               const { ref } = Vue;
+              const { version, components } = VueApplet;
               const input1 = ref();
               return {
                 version,
                 input1,
+                components,
               };
             },
           };
